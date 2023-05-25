@@ -12,9 +12,14 @@ public class MouseLook : MonoBehaviour {
 
     private Vector2 velocity;
     private Vector2 rotation;
+    private Vector2 rotationPlayer;
     private Vector2 lastInput;
     private float inputLagTimer;
+    private PlayerMove _playerMove;
 
+    private void Awake() {
+        _playerMove = FindObjectOfType<PlayerMove>();
+    }
 
     private Vector2 GetInput() {
         inputLagTimer += Time.deltaTime;
@@ -39,16 +44,17 @@ public class MouseLook : MonoBehaviour {
     private void Update() {
         Vector2 wantedVelocity = GetInput() * _sensitivity;
 
-        if(lockHorizontalRotation) wantedVelocity.x = 0;
-        else wantedVelocity.y = 0;
-
         velocity = new Vector2(
-            Mathf.MoveTowards(velocity.x, wantedVelocity.x, _acceleration.x * Time.deltaTime),
-            Mathf.MoveTowards(velocity.y, wantedVelocity.y, _acceleration.y * Time.deltaTime));
-        rotation += velocity * Time.deltaTime;
+            Mathf.MoveTowards(velocity.x, wantedVelocity.x, _acceleration.x ),
+            Mathf.MoveTowards(velocity.y, wantedVelocity.y, _acceleration.y ));
+        rotation += velocity ;
         rotation.y = ClampVerticalAngle(rotation.y);
 
-        transform.localEulerAngles = new Vector3(rotation.y, rotation.x, 0);
-    }
+        if (_playerMove.isPlayerMovement) {
+            transform.localEulerAngles = new Vector3(rotation.y, 0, 0);
+            _playerMove.transform.localEulerAngles = new Vector3(0, rotation.x, 0);
+        }
 
+    }
+    
 }
