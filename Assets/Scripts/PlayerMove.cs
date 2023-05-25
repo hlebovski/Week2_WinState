@@ -10,31 +10,13 @@ public class PlayerMove : MonoBehaviour {
     [SerializeField] private float _sprintingMultiplier = 2f;
     [SerializeField] private float _horizontalSensitivity;
 
-    private Camera _mainCamera;
-    private Camera _spectatorCamera;
     private Rigidbody _rigidbody;
     private float _sprinting;
-    private CoinController _coinController;
-    private UIController _UI;
+
 
     private void Awake() {
         _rigidbody = GetComponent<Rigidbody>();
-        _mainCamera = GetComponentInChildren<Camera>();
-        _spectatorCamera = FindObjectOfType<Camera>();
-        _UI = FindObjectOfType<UIController>();
-        _coinController = FindObjectOfType<CoinController>();
         _sprinting = _sprintingMultiplier;
-    }
-
-    private void ExitMenu() {
-        isPlayerMovement = true;
-        _spectatorCamera.enabled = false;
-        _mainCamera.enabled = true;
-        _coinController.coinNumber = 0;
-        _UI.UpdateCoinCounter(_coinController.coinNumber);
-        _UI.ToggleCoinText(true);
-        _UI.ToggleStartText(false);
-        _UI.ToggleControlsText(false);
     }
 
 

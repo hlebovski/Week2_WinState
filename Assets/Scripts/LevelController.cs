@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class LevelController : MonoBehaviour {
     [SerializeField] private GameObject SpawnPosition;
 
     public bool isFinished = false;
+    private float Timer;
     private PlayerMove _playerMove;
     private Camera _spectatorCamera;
     private CoinController _coinController;
@@ -25,16 +27,17 @@ public class LevelController : MonoBehaviour {
     }
 
     private void Update() {
-        if (!_playerMove.isPlayerMovement) {
-            if (!isFinished && Input.GetKeyDown(KeyCode.Space))  ExitMenu(); 
-            if (isFinished && Input.GetKeyDown(KeyCode.R))  Restart();
-        } else if (isFinished) {
-
+        if (isFinished) {
+            if ((!_playerMove.isPlayerMovement) && Input.GetKeyDown(KeyCode.R)) Restart();
             _UI.ToggleWinText(true);
             _playerMove.isPlayerMovement = false;
             _playerMove.StopPhysics();
-
+        } else if (!_playerMove.isPlayerMovement && Input.GetKeyDown(KeyCode.Space)) ExitMenu();
+        else {
+            Timer += Time.deltaTime;
+            _UI.UpdateTimer(Timer);
         }
+
     }
 
     private void Restart() {
@@ -46,6 +49,7 @@ public class LevelController : MonoBehaviour {
     }
 
     private void ExitMenu() {
+        Timer = 0;
         isFinished = false;
         _playerMove.isPlayerMovement = true;
         _spectatorCamera.enabled = false;
@@ -55,6 +59,7 @@ public class LevelController : MonoBehaviour {
         _UI.ToggleCoinText(true);
         _UI.ToggleStartText(false);
         _UI.ToggleControlsText(false);
+        _UI.ToggleTimerText(true);
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,15 +16,21 @@ public class UIController : MonoBehaviour {
     [SerializeField] private Text coinText;
     [SerializeField] private Text messageText;
     [SerializeField] private Text controlsText;
+    [SerializeField] private Text timerText;
     private CoinController coinController;
 
     private void Awake() {
         coinController = FindObjectOfType<CoinController>();
         ToggleCoinText(false);
+        ToggleTimerText(false);
     }
 
     public void UpdateCoinCounter(int number) {
         coinText.text = coinString + number.ToString() + "/" + coinController.coinsOnLevel;
+    }
+
+    public void UpdateTimer(float time) {
+        timerText.text = time.ToString();
     }
 
     public void ToggleText(Text text, bool toggle) {
@@ -32,6 +39,9 @@ public class UIController : MonoBehaviour {
 
     public void ToggleCoinText(bool toggle) {
         ToggleText(coinText, toggle);
+    }
+    public void ToggleTimerText(bool toggle) {
+        ToggleText(timerText, toggle);
     }
     public void ToggleControlsText(bool toggle) {
         ToggleText(controlsText, toggle);

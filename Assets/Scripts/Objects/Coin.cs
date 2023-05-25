@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour {
     private Transform _playerTransform;
     private CoinController _coinController;
 
-    private void Awake() {
+    private void Start() {
         _playerTransform = FindObjectOfType<PlayerMove>().transform;
         _coinController = FindObjectOfType<CoinController>();
     }
