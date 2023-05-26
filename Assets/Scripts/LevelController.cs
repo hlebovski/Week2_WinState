@@ -27,6 +27,7 @@ public class LevelController : MonoBehaviour {
     }
 
     private void Update() {
+        if(Input.GetKeyUp(KeyCode.Escape))  QuitGame(); 
         if (isFinished) {
             if ((!_playerMove.isPlayerMovement) && Input.GetKeyDown(KeyCode.R)) Restart();
             _UI.ToggleWinText(true);
@@ -60,6 +61,14 @@ public class LevelController : MonoBehaviour {
         _UI.ToggleStartText(false);
         _UI.ToggleControlsText(false);
         _UI.ToggleTimerText(true);
+    }
+    public void QuitGame() {
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
 
 }

@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     const string coinString = "COINS X";
-    const string startString = "PRESS SPACE TO START"; 
+    const string startString = "PRESS SPACE\r\nTO START"; 
     const string winString = "LEVEL FINISHED PRESS R TO RESTART";
-    const string controlsString = "WASD - movement, Mouse - look around      Collect all coins to finish level";
+    const string controlsString = "WASD - Movement, LEFT SHIFT - Run\r\nCollect all coins to finish level in shortest time";
 
     [SerializeField] private Text coinText;
     [SerializeField] private Text messageText;
